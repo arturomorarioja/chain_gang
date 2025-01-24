@@ -1,0 +1,120 @@
+@import '_variables.css';
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+  font: 0.9rem var(--fontMain);
+  background-color: var(--colorBgMain);
+}
+
+header {
+  margin: 0.5rem 1rem;
+  text-align: center;
+  h1 {
+    a {
+      text-decoration: none;
+      color: var(--colorMain);
+      letter-spacing: 0.3rem;
+      img.bike-icon {
+        display: inline-block;
+        width: 75px;
+      }
+    }    
+  }
+}
+
+img#super-hero-image {
+  width: 100%;
+}
+
+nav > ul {
+  display: flex;
+  flex-flow: row nowrap;  
+  justify-content: center;
+  align-items: stretch;
+  gap: clamp(0.2rem, 3vw, 1rem);
+  li {    
+    list-style-type: none;
+    border: thin solid var(--colorMain);      
+    a {
+      display: inline-block;
+      padding: 1rem 1.5rem;
+      text-align: center;
+      text-decoration: none;
+      color: var(--colorMain);
+      &:hover {
+        background: var(--colorBgHover);
+      }
+    }
+  }
+}
+
+main > section, footer {
+    margin: 0 1rem;
+    p {
+        margin-bottom: 1rem;
+    }
+}
+
+section.intro {
+    .wrapper {
+        display: flex;
+        flex-flow: row nowrap;
+        margin-bottom: 1rem;
+        img {
+            aspect-ratio: 3 / 2;
+            flex: 0 1 120px;
+        }    
+    }
+}
+
+section.hero {
+  margin: 1rem 0;
+  h2 {
+    line-height: 2rem;
+  }
+}
+
+img.inset {
+  float: left;
+  width: 150px;
+  margin-right: 20px;
+}
+
+.table {
+    overflow: auto;
+    margin-bottom: 1rem;
+    table#inventory {
+        border-collapse: collapse;
+        tr th {
+            background: var(--colorBgSecondary);
+            color: var(--colorBgMain);
+            text-align: left;
+        }
+        tr td, tr th {
+            border: thin solid var(--colorMain);
+            padding: 0.25rem 0.5rem;
+        }
+        th.number, td.number {
+            text-align: right;
+        }
+    }
+}
+
+.detail dl {
+  clear: both;
+  height: 1em;
+  margin-bottom: 1em;
+  dl dt {
+    float: left;
+    width: 100px;
+    font-weight: bold;
+  }
+  dl dd {
+    float: left;
+  }
+}

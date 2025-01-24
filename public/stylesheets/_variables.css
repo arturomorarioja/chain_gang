@@ -1,0 +1,8 @@
+:root {
+    --colorMain: black;
+    --colorBgMain: white;
+    --colorBgSecondary: #0B61A5;
+    --colorBgHover: #EEE;
+
+    --fontMain: Verdana, Arial, Helvetica, sans-serif;
+}
