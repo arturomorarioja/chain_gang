@@ -6,7 +6,7 @@ class Bicycle
     public string $model;
     public int $year;
     public string $category;
-    public string $color;
+    public string $colour;
     public string $description;
     public string $gender;
     public float $price;
@@ -22,6 +22,7 @@ class Bicycle
         4 => 'Great',
         5 => 'Like New'
     ];
+    private const WEIGHT_RATIO = 2.2046226218;
 
     public function __construct($args=[])
     {
@@ -30,7 +31,7 @@ class Bicycle
         $this->model = $args['model'] ?? '';
         $this->year = $args['year'] ?? '';
         $this->category = $args['category'] ?? '';
-        $this->color = $args['color'] ?? '';
+        $this->colour = $args['colour'] ?? '';
         $this->description = $args['description'] ?? '';
         $this->gender = $args['gender'] ?? '';
         $this->price = $args['price'] ?? 0;
@@ -57,13 +58,13 @@ class Bicycle
 
     public function weight_lbs(): string 
     {
-        $weight_lbs = floatval($this->weight_kg) * 2.2046226218;
+        $weight_lbs = floatval($this->weight_kg) * self::WEIGHT_RATIO;
         return number_format($weight_lbs, 2) . ' lbs';
     }
 
     public function set_weight_lbs(float $value) 
     {
-       $this->weight_kg = floatval($value) / 2.2046226218;
+       $this->weight_kg = floatval($value) / self::WEIGHT_RATIO;
     }
 
     public function condition(): string 

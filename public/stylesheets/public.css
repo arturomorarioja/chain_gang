@@ -7,50 +7,50 @@
 }
 
 body {
-  font: 0.9rem var(--fontMain);
-  background-color: var(--colorBgMain);
+    font: 0.9rem var(--fontMain);
+    background-color: var(--colorBgMain);
+    @media (min-width: 1024px) {
+        max-width: 1024px;
+        margin: auto;
+    }
 }
 
 header {
-  margin: 0.5rem 1rem;
-  text-align: center;
-  h1 {
-    a {
-      text-decoration: none;
-      color: var(--colorMain);
-      letter-spacing: 0.3rem;
-      img.bike-icon {
-        display: inline-block;
-        width: 75px;
-      }
-    }    
-  }
-}
-
-img#super-hero-image {
-  width: 100%;
+    margin: 0.5rem 1rem;
+    text-align: center;
+    h1 {
+        a {
+            text-decoration: none;
+            color: var(--colorMain);
+            letter-spacing: 0.3rem;
+            img.bike-icon {
+                display: inline-block;
+                width: 75px;
+            }
+        }    
+    }
 }
 
 nav > ul {
-  display: flex;
-  flex-flow: row nowrap;  
-  justify-content: center;
-  align-items: stretch;
-  gap: clamp(0.2rem, 3vw, 1rem);
-  li {    
-    list-style-type: none;
-    border: thin solid var(--colorMain);      
-    a {
-      display: inline-block;
-      padding: 1rem 1.5rem;
-      text-align: center;
-      text-decoration: none;
-      color: var(--colorMain);
-      &:hover {
-        background: var(--colorBgHover);
-      }
+    display: flex;
+    flex-flow: row nowrap;  
+    justify-content: center;
+    align-items: stretch;
+    gap: clamp(0.2rem, 3vw, 1rem);
+    li {    
+        list-style-type: none;
+        border: thin solid var(--colorMain);      
+        a {
+            display: inline-block;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--colorMain);
+            &:hover {
+                background: var(--colorBgHover);
+            }
+        }
     }
-  }
 }
 
 main > section, footer {
@@ -64,25 +64,25 @@ section.intro {
     .wrapper {
         display: flex;
         flex-flow: row nowrap;
+        align-items: flex-start;
         margin-bottom: 1rem;
         img {
             aspect-ratio: 3 / 2;
+            width: 120px;
             flex: 0 1 120px;
+            margin-right: 1rem;
         }    
     }
 }
 
 section.hero {
-  margin: 1rem 0;
-  h2 {
-    line-height: 2rem;
-  }
-}
-
-img.inset {
-  float: left;
-  width: 150px;
-  margin-right: 20px;
+    margin: 1rem 0;
+    h2 {
+        line-height: 2rem;
+    }
+    img#super-hero-image {
+        width: 100%;
+    }
 }
 
 .table {
@@ -105,16 +105,8 @@ img.inset {
     }
 }
 
-.detail dl {
-  clear: both;
-  height: 1em;
-  margin-bottom: 1em;
-  dl dt {
-    float: left;
-    width: 100px;
-    font-weight: bold;
-  }
-  dl dd {
-    float: left;
-  }
+.error {
+    margin-top: 1rem;
+    padding: 1rem 1rem 0 1rem;
+    border: thick solid var(--colorError);
 }

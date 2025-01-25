@@ -16,7 +16,7 @@ include(SHARED_PATH . '/public_header.php');
                 <h2>Our Inventory of Used Bicycles</h2>
             </header>
             <div class="wrapper">
-                <img class="inset" src="<?php echo url_for('/images/AdobeStock_55807979_thumb.jpeg') ?>">
+                <img src="<?php echo url_for('/images/AdobeStock_55807979_thumb.jpeg') ?>">
                 <div>
                     <p>Choose the bike you love.</p>
                     <p>We will deliver it to your door and let you try it before you buy it.</p>
@@ -42,11 +42,12 @@ include(SHARED_PATH . '/public_header.php');
                 <tbody>
 <?php
 
-$parser = new ParseCSV(PRIVATE_PATH . '/used_bicycles.csv');
-$bike_array = $parser->parse();
+$bicycles = new Bicycles();
+$bikes = $bicycles->getAll();
 
 ?>
-                <?php foreach($bike_array as $args): ?>
+            <?php if ($bikes): ?>
+                <?php foreach($bikes as $args): ?>
                     <?php $bike = new Bicycle($args); ?>
                     <tr>
                         <td><?=h($bike->brand) ?></td>
@@ -54,15 +55,23 @@ $bike_array = $parser->parse();
                         <td><?=h($bike->year) ?></td>
                         <td><?=h($bike->category) ?></td>
                         <td><?=h($bike->gender) ?></td>
-                        <td><?=h($bike->color) ?></td>
+                        <td><?=h($bike->colour) ?></td>
                         <td><?=h($bike->weight_kg()) . ' / ' . h($bike->weight_lbs()) ?></td>
                         <td><?=h($bike->condition()) ?></td>
                         <td class="number"><?=h(money_format('$%i', $bike->price)) ?></td>
                     </tr>
                 <?php endforeach; ?>
+            <?php endif; ?>
                 
                 </tbody>
             </table>
+
+            <?php if (!$bikes): ?>
+                <div class="error">                    
+                    <p>There was an error while retrieving the bicycle list:</p>
+                    <p><?=$bicycles->lastErrorMessage ?></p>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 
