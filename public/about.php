@@ -7,7 +7,7 @@ include(SHARED_PATH . '/public_header.php');
 
 ?>
     <section>
-        <p><a href="<?=url_for('/index.php') ?>">Back</a></p>
+        <p><a href="<?=urlFor('/index.php') ?>">Back</a></p>
     </section>
     <section>
         <header>

@@ -1,22 +1,26 @@
 <?php
 
-function url_for($script_path) {
+function urlFor(string $script_path): string 
+{
     // add the leading '/' if not present
-    if($script_path[0] != '/') {
+    if($script_path[0] !== '/') {
         $script_path = '/' . $script_path;
     }
     return WWW_ROOT . $script_path;
 }
 
-function u($string='') {
+function u(string $string=''): string 
+{
     return urlencode($string);
 }
 
-function raw_u($string='') {
+function rawU(string $string=''): string 
+{
     return rawurlencode($string);
 }
 
-function h($string='') {
+function h(string $string=''): string 
+{
     return htmlspecialchars($string);
 }
 
@@ -30,23 +34,8 @@ function error_500() {
     exit;
 }
 
-function redirect_to($location) {
-    header('Location: ' . $location);
-    exit;
-}
-
-function is_post_request() {
-    return $_SERVER['REQUEST_METHOD'] == 'POST';
-}
-
-function is_get_request() {
-    return $_SERVER['REQUEST_METHOD'] == 'GET';
-}
-
-// PHP on Windows does not have a money_format() function.
-// This is a super-simple replacement.
-if(!function_exists('money_format')) {
-    function money_format($format, $number) {
-        return '$' . number_format($number, 2);
-    }
+function formatMoney(float $amount): string
+{
+    $fmt = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
+    return $fmt->formatCurrency($amount, 'USD');
 }

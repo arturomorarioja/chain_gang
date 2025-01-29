@@ -7,8 +7,8 @@ include(SHARED_PATH . '/public_header.php');
 
 <nav>
     <ul id="menu">
-        <li><a href="<?=url_for('/bicycles.php') ?>">View Our Inventory</a></li>
-        <li><a href="<?=url_for('/about.php') ?>">About Us</a></li>
+        <li><a href="<?=urlFor('/bicycles.php') ?>">View Our Inventory</a></li>
+        <li><a href="<?=urlFor('/about.php') ?>">About Us</a></li>
     </ul>    
 </nav>
 

@@ -8,7 +8,7 @@ include SHARED_PATH . '/public_header.php';
 ?>
 
     <section>
-        <p><a href="<?=url_for('/index.php') ?>">Back</a></p>
+        <p><a href="<?=urlFor('/index.php') ?>">Back</a></p>
     </section>
     <section>
         <section class="intro">
@@ -16,7 +16,7 @@ include SHARED_PATH . '/public_header.php';
                 <h2>Our Inventory of Used Bicycles</h2>
             </header>
             <div class="wrapper">
-                <img src="<?php echo url_for('/images/AdobeStock_55807979_thumb.jpeg') ?>">
+                <img src="<?php echo urlFor('/images/AdobeStock_55807979_thumb.jpeg') ?>">
                 <div>
                     <p>Choose the bike you love.</p>
                     <p>We will deliver it to your door and let you try it before you buy it.</p>
@@ -56,7 +56,7 @@ $bikes = Bicycle::getAll();
                             <td><?=h($bike->category) ?></td>
                             <td><?=h($bike->gender) ?></td>
                             <td><?=h($bike->colour) ?></td>
-                            <td class="number"><?=h(money_format('$%i', $bike->price)) ?></td>
+                            <td class="number"><?=h(formatMoney($bike->price)) ?></td>
                             <td><a href="detail.php?id=<?=$bike->id ?>">View</a></td>
                         </tr>
                     <?php endforeach; ?>

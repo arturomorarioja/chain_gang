@@ -6,8 +6,11 @@ include SHARED_PATH . '/staff_header.php';
 ?>
     
     <section>
-        <p><a href="<?=url_for('/staff/bicycles') ?>">Back</a></p>
+        <p><a href="<?=urlFor('/staff/bicycles') ?>">Back</a></p>
     </section>
+    <header>
+        <h2>Bicycle</h2>
+    </header>
 
 <?php
 
@@ -70,7 +73,7 @@ if (!$bike) {
         </dl>
         <dl>
             <dt>Price</dt>
-            <dd><?=h(money_format('$%i', $bike->price)) ?></dd>
+            <dd><?=h(formatMoney($bike->price)) ?></dd>
         </dl>
         <dl>
             <dt>Description</dt>

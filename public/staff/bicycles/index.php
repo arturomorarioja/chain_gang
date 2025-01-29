@@ -8,8 +8,11 @@ include SHARED_PATH . '/staff_header.php';
 ?>
 
     <section>
-        <p><a href="<?=url_for('/staff') ?>">Back</a></p>
+        <p><a href="<?=urlFor('/staff') ?>">Back</a></p>
     </section>
+    <header>
+        <h2>Bicycles</h2>
+    </header>
     <section>
         <section>
             <p><a href="new.php">Add bicycle</a></p>
@@ -48,7 +51,7 @@ $bikes = Bicycle::getAll();
                             <td><?=h($bike->category) ?></td>
                             <td><?=h($bike->gender) ?></td>
                             <td><?=h($bike->colour) ?></td>
-                            <td class="number"><?=h(money_format('$%i', $bike->price)) ?></td>
+                            <td class="number"><?=h(formatMoney($bike->price)) ?></td>
                             <td><a href="show.php?id=<?=$bike->id ?>">View</a></td>
                             <td><a href="edit.php?id=<?=$bike->id ?>">Edit</a></td>
                             <td><a href="delete.php?id=<?=$bike->id ?>">Delete</a></td>

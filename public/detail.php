@@ -8,7 +8,7 @@ include SHARED_PATH . '/public_header.php';
 ?>
     
     <section>
-        <p><a href="<?=url_for('/bicycles.php') ?>">Back</a></p>
+        <p><a href="<?=urlFor('/bicycles.php') ?>">Back</a></p>
     </section>
 
 <?php
@@ -72,7 +72,7 @@ if (!$bike) {
         </dl>
         <dl>
             <dt>Price</dt>
-            <dd><?=h(money_format('$%i', $bike->price)) ?></dd>
+            <dd><?=h(formatMoney($bike->price)) ?></dd>
         </dl>
         <dl>
             <dt>Description</dt>

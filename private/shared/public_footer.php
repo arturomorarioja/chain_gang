@@ -3,7 +3,7 @@
         <section class="hero">
             <img 
                 id="super-hero-image" 
-                src="<?=url_for('/images/' . $super_hero_image) ?>"
+                src="<?=urlFor('/images/' . $super_hero_image) ?>"
             >
         </section>
     </main>
