@@ -1,0 +1,19 @@
+body {
+    > header, > footer {
+        margin: 0;
+        padding: 0.5rem 1rem;
+        text-align: center;
+        background-color: var(--colorBgSecondary);
+        p, a {
+            margin-bottom: 0;
+            color: var(--colorBgMain);
+        }
+    }
+}
+
+nav {
+    margin: 0.5rem 0;
+    ul li a {
+        padding: 0.25rem 1rem;
+    }
+}
