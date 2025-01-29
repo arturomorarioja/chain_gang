@@ -36,6 +36,5 @@ function error_500() {
 
 function formatMoney(float $amount): string
 {
-    $fmt = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
-    return $fmt->formatCurrency($amount, 'USD');
+    return '$' . number_format($amount, 2);
 }

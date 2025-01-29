@@ -24,7 +24,7 @@ if ($bikeID === 0) {
     exit;
 }
 // --- Active Record design pattern ---
-// getAll() is called as a static method
+// getByID() is called as a static method
 $bike = Bicycle::getByID($bikeID);
 if (!$bike) {
     ?>

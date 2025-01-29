@@ -24,13 +24,16 @@ class Database extends DBCredentials
     }
 
     /**
-     * Runs a query
+     * Runs a SQL query
      * @param $sql       The query to run
      * @param $params    An associative array with the list of parameters
-     * @param $returnOne If true, it only returns one row
-     * @return The query results as an associative array
+     * @param $returnOne If true and the query is a SELECT, it only returns one row
+     * @return If it is a SELECT:            the query results as an associative array.
+     *         If it is an INSERT:           the ID of the newly added row.
+     *         If it is an UPDATE or DELETE: the number of affected rows.
+     *         If there is an error:         false
      */
-    public function execute(string $sql, array $params = [], $returnOne = false): array|false
+    public function execute(string $sql, array $params = [], $returnOne = false): array|int|false
     {
         foreach ($params as $key => $param) {
             $params[$key] = htmlspecialchars($param);
@@ -38,10 +41,19 @@ class Database extends DBCredentials
         try {
             $stmt = self::$pdo->prepare($sql);
             $stmt->execute($params);
-            if ($returnOne) {
-                $results = $stmt->fetch();
-            } else {
-                $results = $stmt->fetchAll();
+
+            // SELECT statement
+            if ($stmt->columnCount() > 0) { 
+                if ($returnOne) {
+                    $results = $stmt->fetch();
+                } else {
+                    $results = $stmt->fetchAll();
+                }
+            } else {    // DML statement
+                $results = self::$pdo->lastInsertId();  // INSERT
+                if ((int)$results === 0) {  // UPDATE or DELETE
+                    $results = $stmt->rowCount();
+                }
             }
             return $results;
         } catch (\PDOException $e) {
