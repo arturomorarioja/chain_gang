@@ -5,7 +5,7 @@ require_once 'db_credentials.php';
 class Database extends DBCredentials
 {
     static public ?PDO $pdo;
-    static public string $lastErrorMessage;
+    static public string $lastErrorMessage = '';
 
     public function __construct()
     {
@@ -26,14 +26,18 @@ class Database extends DBCredentials
     /**
      * Runs a query
      * @param $sql       The query to run
+     * @param $params    An associative array with the list of parameters
      * @param $returnOne If true, it only returns one row
      * @return The query results as an associative array
      */
-    public function execute(string $sql, $returnOne = false): array
+    public function execute(string $sql, array $params = [], $returnOne = false): array|false
     {
+        foreach ($params as $key => $param) {
+            $params[$key] = htmlspecialchars($param);
+        }
         try {
             $stmt = self::$pdo->prepare($sql);
-            $stmt->execute();
+            $stmt->execute($params);
             if ($returnOne) {
                 $results = $stmt->fetch();
             } else {
@@ -42,7 +46,7 @@ class Database extends DBCredentials
             return $results;
         } catch (\PDOException $e) {
             self::$lastErrorMessage = 'Error executing query: ' . $e->getMessage();
-            exit;
+            return false;
         }
     }
 

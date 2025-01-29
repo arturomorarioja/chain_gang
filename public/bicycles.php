@@ -1,9 +1,9 @@
 <?php 
 
-require_once('../private/initialize.php');
+require_once '../private/initialize.php';
 
 $page_title = 'Inventory';
-include(SHARED_PATH . '/public_header.php'); 
+include SHARED_PATH . '/public_header.php'; 
 
 ?>
 
@@ -34,9 +34,8 @@ include(SHARED_PATH . '/public_header.php');
                         <th>Category</th>
                         <th>Gender</th>
                         <th>Color</th>
-                        <th>Weight</th>
-                        <th>Condition</th>
                         <th class="number">Price</th>
+                        <th>Details</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -57,9 +56,8 @@ $bikes = Bicycle::getAll();
                             <td><?=h($bike->category) ?></td>
                             <td><?=h($bike->gender) ?></td>
                             <td><?=h($bike->colour) ?></td>
-                            <td><?=h($bike->weightKg()) . ' / ' . h($bike->weightLbs()) ?></td>
-                            <td><?=h($bike->condition()) ?></td>
                             <td class="number"><?=h(money_format('$%i', $bike->price)) ?></td>
+                            <td><a href="detail.php?id=<?=$bike->id ?>">View</a></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php endif; ?>

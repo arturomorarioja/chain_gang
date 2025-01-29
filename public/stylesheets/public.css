@@ -105,6 +105,18 @@ section.hero {
     }
 }
 
+dl {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    height: 1rem;
+    margin-bottom: 1rem;
+    dt {
+        width: 8rem;
+        font-weight: bold;
+    }
+}
+
 .error {
     margin-top: 1rem;
     padding: 1rem 1rem 0 1rem;

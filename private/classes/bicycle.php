@@ -22,7 +22,7 @@ class Bicycle
     {
         $sql =<<<'SQL'
             SELECT 
-                nBicycleID AS bicycle_id,
+                nBicycleID AS id,
                 cBrand AS brand,
                 cModel AS model,
                 nYear AS year,
@@ -43,6 +43,42 @@ class Bicycle
                 $objectArray[] = self::instantiate($record);
             };
             return $objectArray;
+        } catch (\PDOException $e) {
+            self::$lastErrorMessage = $e->getMessage();
+            return false;
+        }
+    }
+
+    /**
+     * Retrieves a single bicycle.
+     * @param $bicycleID The ID of the bicycle whose information to retrieve
+     * @return An associative array with the bicycle's information,
+     *         or false if there was an error
+     */
+    static public function getByID(int $bicycleID): Bicycle|false
+    {
+        $sql =<<<'SQL'
+            SELECT 
+                cBrand AS brand,
+                cModel AS model,
+                nYear AS year,
+                cCategory AS category,
+                cGender AS gender,
+                cColour AS colour,
+                nPrice AS price,
+                nWeightKg AS weight_kg,
+                nConditionID AS condition_id,
+                cDescription AS description
+            FROM bicycles
+            WHERE nBicycleID = ?;
+        SQL;
+        try {
+            $bike = self::$database->execute($sql, [$bicycleID], true);
+            if (!$bike) {
+                self::$lastErrorMessage = Database::$lastErrorMessage;
+                return false;    
+            }
+            return self::instantiate($bike);
         } catch (\PDOException $e) {
             self::$lastErrorMessage = $e->getMessage();
             return false;
