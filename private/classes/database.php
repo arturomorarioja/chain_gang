@@ -4,8 +4,8 @@ require_once 'db_credentials.php';
 
 class Database extends DBCredentials
 {
-    protected ?PDO $pdo;
-    public string $lastErrorMessage;
+    static public ?PDO $pdo;
+    static public string $lastErrorMessage;
 
     public function __construct()
     {
@@ -16,9 +16,32 @@ class Database extends DBCredentials
         ];
 
         try {
-            $this->pdo = @new PDO($dsn, self::DB_USER, self::DB_PASSWORD, $options);
+            self::$pdo = @new PDO($dsn, self::DB_USER, self::DB_PASSWORD, $options);
         } catch (\PDOException $e) {
-            $this->lastErrorMessage = 'Connection unsuccessful: ' . $e->getMessage();
+            self::$lastErrorMessage = 'Connection unsuccessful: ' . $e->getMessage();
+            exit;
+        }
+    }
+
+    /**
+     * Runs a query
+     * @param $sql       The query to run
+     * @param $returnOne If true, it only returns one row
+     * @return The query results as an associative array
+     */
+    public function execute(string $sql, $returnOne = false): array
+    {
+        try {
+            $stmt = self::$pdo->prepare($sql);
+            $stmt->execute();
+            if ($returnOne) {
+                $results = $stmt->fetch();
+            } else {
+                $results = $stmt->fetchAll();
+            }
+            return $results;
+        } catch (\PDOException $e) {
+            self::$lastErrorMessage = 'Error executing query: ' . $e->getMessage();
             exit;
         }
     }

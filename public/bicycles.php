@@ -42,26 +42,27 @@ include(SHARED_PATH . '/public_header.php');
                 <tbody>
 <?php
 
-$bicycles = new Bicycles();
-$bikes = $bicycles->getAll();
+// --- Active Record design pattern ---
+// getAll() is called as a static method
+$bikes = Bicycle::getAll();
+// ---
 
 ?>
-            <?php if ($bikes): ?>
-                <?php foreach($bikes as $args): ?>
-                    <?php $bike = new Bicycle($args); ?>
-                    <tr>
-                        <td><?=h($bike->brand) ?></td>
-                        <td><?=h($bike->model) ?></td>
-                        <td><?=h($bike->year) ?></td>
-                        <td><?=h($bike->category) ?></td>
-                        <td><?=h($bike->gender) ?></td>
-                        <td><?=h($bike->colour) ?></td>
-                        <td><?=h($bike->weight_kg()) . ' / ' . h($bike->weight_lbs()) ?></td>
-                        <td><?=h($bike->condition()) ?></td>
-                        <td class="number"><?=h(money_format('$%i', $bike->price)) ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
+                <?php if ($bikes): ?>
+                    <?php foreach($bikes as $bike): ?>
+                        <tr>
+                            <td><?=h($bike->brand) ?></td>
+                            <td><?=h($bike->model) ?></td>
+                            <td><?=h($bike->year) ?></td>
+                            <td><?=h($bike->category) ?></td>
+                            <td><?=h($bike->gender) ?></td>
+                            <td><?=h($bike->colour) ?></td>
+                            <td><?=h($bike->weightKg()) . ' / ' . h($bike->weightLbs()) ?></td>
+                            <td><?=h($bike->condition()) ?></td>
+                            <td class="number"><?=h(money_format('$%i', $bike->price)) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
                 
                 </tbody>
             </table>
