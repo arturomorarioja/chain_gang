@@ -64,7 +64,7 @@ if (!$bike) {
         </dl>
         <dl>
             <dt>Weight</dt>
-            <dd><?=h($bike->weightInKg()) . ' / ' . h($bike->weightLbs()) ?></dd>
+            <dd><?=h($bike->weightKg()) . ' / ' . h($bike->weightLbs()) ?></dd>
         </dl>
         <dl>
             <dt>Condition</dt>
