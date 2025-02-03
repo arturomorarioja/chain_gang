@@ -11,7 +11,7 @@ class Bicycle
     public string $description;
     public string $gender;
     public float $price;
-    protected float $weightInKg;
+    protected float $weightKg;
     protected int $conditionID;
 
     public const CATEGORIES = ['Road', 'Mountain', 'Hybrid', 'Cruiser', 'City', 'BMX'];
@@ -35,7 +35,7 @@ class Bicycle
         $this->description = $args['description'] ?? '';
         $this->gender = $args['gender'] ?? '';
         $this->price = (float)($args['price'] ?? 0);
-        $this->weightInKg = (float)($args['weight_kg'] ?? 0.0);
+        $this->weightKg = (float)($args['weight_kg'] ?? 0.0);
         $this->conditionID = (int)($args['condition_id'] ?? 3);
 
         // Caution: allows private/protected properties to be set
@@ -48,23 +48,23 @@ class Bicycle
 
     public function weightKg(): string
     {
-        return number_format($this->weightInKg, 2) . ' kg';
+        return number_format($this->weightKg, 2) . ' kg';
     }
 
     public function setWeightKg(float $value): void 
     {
-        $this->weightInKg = floatval($value);
+        $this->weightKg = floatval($value);
     }
 
     public function weightLbs(): string 
     {
-        $weight_lbs = floatval($this->weightInKg) * self::WEIGHT_RATIO;
+        $weight_lbs = floatval($this->weightKg) * self::WEIGHT_RATIO;
         return number_format($weight_lbs, 2) . ' lbs';
     }
 
     public function setWeightLbs(float $value): void
     {
-       $this->weightInKg = floatval($value) / self::WEIGHT_RATIO;
+       $this->weightKg = floatval($value) / self::WEIGHT_RATIO;
     }
 
     public function condition(): string 
@@ -82,6 +82,10 @@ class Bicycle
 
     static protected $database;
     static public string $lastErrorMessage;
+    static protected $dbColumns = [
+        'cBrand', 'cModel', 'nYear', 'cCategory', 'cGender', 
+        'cColour', 'nPrice', 'nWeightKg', 'nConditionID', 'cDescription'
+    ];
  
     static public function setDatabase($database)
     {
@@ -143,7 +147,7 @@ class Bicycle
                 cGender AS gender,
                 cColour AS colour,
                 nPrice AS price,
-                nWeightKg AS weightInKg,
+                nWeightKg AS weightKg,
                 nConditionID AS conditionID,
                 cDescription AS description
             FROM bicycles
@@ -179,20 +183,21 @@ class Bicycle
         return $bicycleObject;
     }
 
+    /**
+     * It inserts a database row into the database
+     * @return true if the operation was successful, false otherwise
+     */
     public function create(): bool
     {
-        $sql =<<<'SQL'
+        $attributes = $this->attributes();
+        $columns = join(', ', array_keys($attributes));
+        $sql =<<<SQL
             INSERT INTO bicycles
-                (cBrand, cModel, nYear, cCategory, cGender, 
-                cColour, nPrice, nWeightKg, nConditionID, cDescription)
+                ($columns)
             VALUES
-                (?, ?, ?, ?, ?,
-                ?, ?, ?, ?, ?);
+                (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
         SQL;
-        $params = [
-            $this->brand, $this->model, $this->year, $this->category, $this->gender,
-            $this->colour, $this->price, $this->weightInKg, $this->conditionID, $this->description
-        ];
+        $params = array_values($attributes);
         try {
             $result = self::$database->execute($sql, $params);
             if ($result) {
@@ -205,5 +210,21 @@ class Bicycle
             self::$lastErrorMessage = $e->getMessage();
             return false;
         }
+    }
+
+    /**
+     * It creates an array with the values for all table attributes
+     * @return array<string, mixed> The array 
+     */
+    public function attributes(): array
+    {
+        $attributes = [];
+        foreach(self::$dbColumns as $column) {
+            if ($column !== 'nBicycleID') {
+                $attrName = strtolower(substr($column, 1, 1)) . substr($column, 2);
+                $attributes[$column] = $this->$attrName;
+            }            
+        }
+        return $attributes;
     }
 }
