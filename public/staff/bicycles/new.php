@@ -6,17 +6,7 @@ $backUrl = '/staff/bicycles';
 include SHARED_PATH . '/staff_header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $args = [];
-    $args['brand'] = $_POST['brand'] ?? null;
-    $args['model'] = $_POST['model'] ?? null;
-    $args['year'] = $_POST['year'] ?? null;
-    $args['category'] = $_POST['category'] ?? null;
-    $args['colour'] = $_POST['colour'] ?? null;
-    $args['gender'] = $_POST['gender'] ?? null;
-    $args['price'] = $_POST['price'] ?? null;
-    $args['weight_kg'] = $_POST['weight_kg'] ?? null;
-    $args['condition_id'] = $_POST['condition_id'] ?? null;
-    $args['description'] = $_POST['description'] ?? null;
+    $args = $_POST['bicycle'] ?? null;
 
     $bicycle = new Bicycle($args);
     $result = $bicycle->save();
@@ -36,19 +26,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <form method="POST" action="new.php">
         <div>
             <label for="txtBrand">Brand</label>
-            <input type="text" name="brand" id="txtBrand" required>
+            <input type="text" name="bicycle[brand]" id="txtBrand" required>
         </div>
         <div>
             <label for="txtModel">Model</label>
-            <input type="text" name="model" id="txtModel" required>
+            <input type="text" name="bicycle[model]" id="txtModel" required>
         </div>
         <div>
             <label for="txtYear">Year</label>
-            <input type="number" name="year" id="txtYear" required min="1900" max="<?=date('Y') ?>">
+            <input type="number" name="bicycle[year]" id="txtYear" required min="1900" max="<?=date('Y') ?>">
         </div>
         <div>
             <label for="cmbCategory">Category</label>
-            <select name="category" id="cmbCategory">
+            <select name="bicycle[category]" id="cmbCategory">
                 <?php foreach (Bicycle::CATEGORIES as $category): ?>
                     <option value="<?=$category ?>"><?=$category ?></option>
                 <?php endforeach; ?>                
@@ -56,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div>
             <label for="cmbGender">Gender</label>
-            <select name="gender" id="cmbGender">
+            <select name="bicycle[gender]" id="cmbGender">
                 <?php foreach (Bicycle::GENDERS as $gender): ?>
                     <option value="<?=$gender ?>"><?=$gender ?></option>
                 <?php endforeach; ?>                
@@ -64,11 +54,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div>
             <label for="txtColour">Colour</label>
-            <input type="text" name="colour" id="txtColour" required>
+            <input type="text" name="bicycle[colour]" id="txtColour" required>
         </div>
         <div>
             <label for="cmbCondition">Condition</label>
-            <select name="condition_id" id="cmbCondition">
+            <select name="bicycle[condition_id]" id="cmbCondition">
                 <?php foreach (Bicycle::CONDITION_OPTIONS as $key => $condition): ?>
                     <option value="<?=$key ?>"><?=$condition ?></option>
                 <?php endforeach; ?>                
@@ -76,15 +66,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
         <div>
             <label for="txtWeight">Weight (kgs)</label>
-            <input type="number" name="weight_kg" id="txtWeight" required>
+            <input type="number" name="bicycle[weight_kg]" id="txtWeight" required>
         </div>
         <div>
             <label for="txtPrice">Price (USD)</label>
-            <input type="number" name="price" id="txtPrice" required>
+            <input type="number" name="bicycle[price]" id="txtPrice" required>
         </div>
         <div>
             <label for="txtDescription">Description</label>
-            <textarea name="description" id="txtDescription"></textarea>
+            <textarea name="bicycle[description]" id="txtDescription"></textarea>
         </div>
         <div>
             <button type="submit">Create bicycle</button>
