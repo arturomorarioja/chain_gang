@@ -80,12 +80,13 @@ class Bicycle
      * Active record design pattern
      *******************************/
 
-    static protected $database;
-    static public string $lastErrorMessage;
-    static protected $dbColumns = [
+    static protected Database $database;
+    static public    string   $lastErrorMessage;    
+    public           array    $validationErrors = [];
+    static protected array    $dbColumns = [
         'cBrand', 'cModel', 'nYear', 'cCategory', 'cGender', 
         'cColour', 'nPrice', 'nWeightKg', 'nConditionID', 'cDescription'
-    ];
+    ];    
  
     static public function setDatabase($database)
     {
@@ -174,7 +175,7 @@ class Bicycle
      /**
       * It creates a Bicycle object.
       * @param $record An associative array with the values to create the object from
-      * @return A Bicycle object
+      * @return Bicycle A Bicycle object
       */
     static protected function instantiate(array $record): Bicycle
     {
@@ -189,12 +190,33 @@ class Bicycle
     }
 
     /**
+     * Validates all attributes before a create or update operation
+     */
+    protected function validate(): void
+    {
+        $this->validationErrors = [];
+
+        if (isBlank($this->brand)) {
+            $this->validationErrors[] = 'The brand cannot be blank.';
+        }
+        if (isBlank($this->model)) {
+            $this->validationErrors[] = 'The model cannot be blank.';
+        }
+        ////
+    }
+
+    /**
      * If the id attribute is set, it updates a bicycle.
      * If the id attribute is not, it inserts a new one.
      * @return true if the process was successful, false otherwise
      */
     public function save(): bool
     {
+        $this->validate();
+        if (!empty($this->validationErrors)) {
+            return false;
+        }
+
         if (isset($this->id)) {
             return $this->update();
         } else {

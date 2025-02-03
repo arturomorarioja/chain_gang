@@ -1,4 +1,11 @@
     <section class="error">
         <p><?=$errorMsg ?></p>
     </section>
-<?php exit; ?>
+<?php 
+
+$continue = $continue ?? false;
+if (!$continue) {
+    exit; 
+}
+
+?>

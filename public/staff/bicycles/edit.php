@@ -27,7 +27,12 @@ if ($bicycleID === '') {
                 $_SESSION['message'] = 'The bicycle was created successfully';
                 header('Location: ' . urlFor('/staff/bicycles/show.php?id=' . $newID));
             } else {
-                $errorMsg = 'There was an error while editing bicycle information.';
+                if (!empty($bicycle->validationErrors)) {
+                    $errorMsg = join('<br>', $bicycle->validationErrors);
+                    $continue = true;
+                } else {
+                    $errorMsg = 'There was an error while editing bicycle information.';
+                }
                 include SHARED_PATH . '/error.php';                        
             }
         }
