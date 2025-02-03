@@ -1,40 +1,23 @@
 <?php
 
 require_once '../../../private/initialize.php';
-include SHARED_PATH . '/staff_header.php';
-
-?>
-    
-    <section>
-        <p><a href="<?=urlFor('/staff/bicycles') ?>">Back</a></p>
-    </section>
-    <header>
-        <h2>Bicycle</h2>
-    </header>
-
-<?php
+$pageTitle = 'Bicycle';
+$backUrl = '/staff/bicycles';
+include SHARED_PATH . '/staff_header.php'; 
 
 $bikeID = $_GET['id'] ?? 0;
 if ($bikeID === 0) {
-?>
-    <section class="error">
-        <p>Incorrect parameters.</p>
-    </section>
-<?php    
-    exit;
+    $errorMsg = 'Incorrect parameters.';
+    include SHARED_PATH . '/error.php';
 }
 // --- Active Record design pattern ---
 // getByID() is called as a static method
 $bike = Bicycle::getByID($bikeID);
-if (!$bike) {
-    ?>
-    <section class="error">
-        <p>There was an error while retrieving bicycle information.</p>
-    </section>
-<?php    
-    exit;
-}
 // ---
+if (!$bike) {
+    $errorMsg = 'There was an error while retrieving bicycle information: ' . Bicycle::$lastErrorMessage;
+    include SHARED_PATH . '/error.php';                
+}
 
 ?>
 

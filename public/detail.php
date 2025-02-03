@@ -2,7 +2,7 @@
 
 require_once '../private/initialize.php';
 
-$page_title = 'Detail';
+$pageTitle = 'Detail';
 include SHARED_PATH . '/public_header.php';
 
 ?>
@@ -15,23 +15,16 @@ include SHARED_PATH . '/public_header.php';
 
 $bikeID = $_GET['id'] ?? 0;
 if ($bikeID === 0) {
-?>
-    <section class="error">
-        <p>Incorrect parameters.</p>
-    </section>
-<?php    
-    exit;
+    $errorMsg = 'Incorrect parameters.';
+    include SHARED_PATH . '/error.php';
 }
+
 // --- Active Record design pattern ---
 // getAll() is called as a static method
 $bike = Bicycle::getByID($bikeID);
 if (!$bike) {
-    ?>
-    <section class="error">
-        <p>There was an error while retrieving bicycle information.</p>
-    </section>
-<?php    
-    exit;
+    $errorMsg = 'There was an error while retrieving bicycle information.';
+    include SHARED_PATH . '/error.php';
 }
 // ---
 

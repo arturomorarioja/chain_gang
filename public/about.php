@@ -2,7 +2,7 @@
 
 require_once('../private/initialize.php');
 
-$page_title = 'About Us';
+$pageTitle = 'About Us';
 include(SHARED_PATH . '/public_header.php'); 
 
 ?>

@@ -120,11 +120,16 @@ class Bicycle
         try {   
             $objectArray = [];
             $bikes = self::$database->execute($sql);
-            foreach ($bikes as $record) {
-                $objectArray[] = self::instantiate($record);
-            };
-            return $objectArray;
-        } catch (\PDOException $e) {
+            if ($bikes) {
+                foreach ($bikes as $record) {
+                    $objectArray[] = self::instantiate($record);
+                };
+                return $objectArray;
+            } else {
+                self::$lastErrorMessage = 'Incorrect query execution.';
+                return false;
+            }
+        } catch (Exception $e) {
             self::$lastErrorMessage = $e->getMessage();
             return false;
         }
@@ -184,10 +189,24 @@ class Bicycle
     }
 
     /**
+     * If the id attribute is set, it updates a bicycle.
+     * If the id attribute is not, it inserts a new one.
+     * @return true if the process was successful, false otherwise
+     */
+    public function save(): bool
+    {
+        if (isset($this->id)) {
+            return $this->update();
+        } else {
+            return $this->create();
+        }
+    }
+
+    /**
      * It inserts a database row into the database
      * @return true if the operation was successful, false otherwise
      */
-    public function create(): bool
+    protected function create(): bool
     {
         $attributes = $this->attributes();
         $columns = join(', ', array_keys($attributes));
@@ -213,7 +232,8 @@ class Bicycle
     }
 
     /**
-     * It creates an array with the values for all table attributes
+     * It creates an associative array whose keys are the 
+     * table columns and whose values are the table attributes
      * @return array<string, mixed> The array 
      */
     public function attributes(): array
@@ -227,4 +247,48 @@ class Bicycle
         }
         return $attributes;
     }
+
+    /**
+     * It updates a row in the database
+     * @return true if the edition was successful, false otherwise
+     */
+    protected function update(): bool
+    {
+        $attributes = $this->attributes();
+        $columns = join(' = ?, ', array_keys($attributes));
+        $sql =<<<SQL
+            UPDATE bicycles
+            SET $columns
+            WHERE nBicycleID = ?;
+        SQL;
+        $params = array_values($attributes);
+        $params['nBicycleID'] = $this->id;
+
+        try {
+            $result = self::$database->execute($sql, $params);
+            
+            // The result is the rowcount
+            if ($result === 1) {  
+                return true;
+            } else {
+                return false;
+            }
+        } catch (\PDOException $e) {
+            self::$lastErrorMessage = $e->getMessage();
+            return false;
+        }
+    }
+
+    /**
+     * It assigns values to the instance properties
+     * @args An array with the property values
+     */
+    public function mergeAttributes(array $args=[]): void
+    {
+        foreach ($args as $key => $value) {
+            if (property_exists($this, $key) && !is_null($value)) {
+                $this->$key = $value;
+            }
+        }
+    }    
 }

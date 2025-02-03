@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chain Gang <?php if(isset($page_title)) { echo '- ' . h($page_title); } ?></title>
+    <title>Chain Gang <?php if(isset($pageTitle)) { echo '- ' . h($pageTitle); } ?></title>
     <link rel="stylesheet" media="all" href="<?=urlFor('/stylesheets/public.css') ?>">
 </head>
 <body>

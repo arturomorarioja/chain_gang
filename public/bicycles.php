@@ -2,7 +2,7 @@
 
 require_once '../private/initialize.php';
 
-$page_title = 'Inventory';
+$pageTitle = 'Inventory';
 include SHARED_PATH . '/public_header.php'; 
 
 ?>
@@ -45,6 +45,10 @@ include SHARED_PATH . '/public_header.php';
 // getAll() is called as a static method
 $bikes = Bicycle::getAll();
 // ---
+if (!$bikes) {
+    $errorMsg = 'There was an error while retrieving the bicycle list: ' . Bicycle::$lastErrorMessage;
+    include SHARED_PATH . '/error.php';                
+}
 
 ?>
                 <?php if ($bikes): ?>
@@ -64,13 +68,6 @@ $bikes = Bicycle::getAll();
                 
                 </tbody>
             </table>
-
-            <?php if (!$bikes): ?>
-                <div class="error">                    
-                    <p>There was an error while retrieving the bicycle list:</p>
-                    <p><?=$bicycles->lastErrorMessage ?></p>
-                </div>
-            <?php endif; ?>
         </div>
     </section>
 

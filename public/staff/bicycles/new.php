@@ -1,9 +1,11 @@
 <?php
 
 require_once '../../../private/initialize.php';
+$pageTitle = 'Add bicycle';
+$backUrl = '/staff/bicycles';
 include SHARED_PATH . '/staff_header.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $args = [];
     $args['brand'] = $_POST['brand'] ?? null;
     $args['model'] = $_POST['model'] ?? null;
@@ -17,25 +19,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $args['description'] = $_POST['description'] ?? null;
 
     $bicycle = new Bicycle($args);
-    $result = $bicycle->create();
+    $result = $bicycle->save();
 
     if ($result) {
         $newID = $bicycle->id;
         $_SESSION['message'] = 'The bicycle was created successfully';
         header('Location: ' . urlFor('/staff/bicycles/show.php?id=' . $newID));
     } else {
-
+        $errorMsg = 'There was an error while creating a new bicycle. ';
+        include SHARED_PATH . '/error.php';
     }
 }
 
 ?>
     
-    <section>
-        <p><a href="<?=urlFor('/staff/bicycles') ?>">Back</a></p>
-    </section>
-    <header>
-        <h2>Add bicycle</h2>
-    </header>
     <form method="POST" action="new.php">
         <div>
             <label for="txtBrand">Brand</label>

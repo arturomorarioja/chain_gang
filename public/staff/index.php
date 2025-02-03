@@ -1,6 +1,7 @@
 <?php 
 
 require_once('../../private/initialize.php');
+$pageTitle = '';
 include(SHARED_PATH . '/staff_header.php');
 
 ?>

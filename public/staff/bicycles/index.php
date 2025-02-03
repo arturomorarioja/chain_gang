@@ -2,17 +2,21 @@
 
 require_once '../../../private/initialize.php';
 
-$page_title = 'Bicycles';
+$pageTitle = 'Bicycles';
+$backUrl = '/staff';
 include SHARED_PATH . '/staff_header.php'; 
+
+// --- Active Record design pattern ---
+// getAll() is called as a static method
+$bikes = Bicycle::getAll();
+// ---
+if (!$bikes) {
+    $errorMsg = 'There was an error while retrieving the bicycle list: ' . Bicycle::$lastErrorMessage;
+    include SHARED_PATH . '/error.php';                
+}
 
 ?>
 
-    <section>
-        <p><a href="<?=urlFor('/staff') ?>">Back</a></p>
-    </section>
-    <header>
-        <h2>Bicycles</h2>
-    </header>
     <section>
         <section>
             <p><a href="new.php">Add bicycle</a></p>
@@ -34,14 +38,6 @@ include SHARED_PATH . '/staff_header.php';
                     </tr>
                 </thead>
                 <tbody>
-<?php
-
-// --- Active Record design pattern ---
-// getAll() is called as a static method
-$bikes = Bicycle::getAll();
-// ---
-
-?>
                 <?php if ($bikes): ?>
                     <?php foreach($bikes as $bike): ?>
                         <tr>
@@ -61,13 +57,6 @@ $bikes = Bicycle::getAll();
                 
                 </tbody>
             </table>
-
-            <?php if (!$bikes): ?>
-                <div class="error">                    
-                    <p>There was an error while retrieving the bicycle list:</p>
-                    <p><?=$bicycles->lastErrorMessage ?></p>
-                </div>
-            <?php endif; ?>
         </div>
     </section>
 
