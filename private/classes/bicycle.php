@@ -146,6 +146,7 @@ class Bicycle
     {
         $sql =<<<'SQL'
             SELECT 
+                nBicycleID AS id,
                 cBrand AS brand,
                 cModel AS model,
                 nYear AS year,
@@ -304,11 +305,11 @@ class Bicycle
         $columns = join(' = ?, ', array_keys($attributes));
         $sql =<<<SQL
             UPDATE bicycles
-            SET $columns
+            SET $columns = ?
             WHERE nBicycleID = ?;
         SQL;
         $params = array_values($attributes);
-        $params['nBicycleID'] = $this->id;
+        $params[] = $this->id;
 
         try {
             $result = self::$database->execute($sql, $params);
@@ -337,4 +338,31 @@ class Bicycle
             }
         }
     }    
+
+    /**
+     * It deletes a row in the database
+     * @return true if the edition was successful, false otherwise
+     */
+    public function delete(): bool
+    {
+        $sql =<<<'SQL'
+            DELETE FROM bicycles
+            WHERE nBicycleID = ?;
+        SQL;
+
+        try {
+            $result = self::$database->execute($sql, [$this->id]);
+            
+            // The result is the rowcount
+            if ($result === 1) {  
+                return true;
+            } else {
+                self::$lastErrorMessage = 'No row was deleted.';
+                return false;
+            }
+        } catch (\PDOException $e) {
+            self::$lastErrorMessage = $e->getMessage();
+            return false;
+        }
+    }
 }

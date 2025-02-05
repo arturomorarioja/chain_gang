@@ -18,14 +18,14 @@ if ($bicycleID === '') {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $args = $_POST['bicycle'] ?? null;
             
-            $bicycle = new Bicycle($args);
-            $result = $bicycle->mergeAttributes($args);
+            // $bicycle = new Bicycle($args);
+            // $bicycle->id = $bicycleID;
+            $bicycle->mergeAttributes($args);
             $result = $bicycle->save();
 
             if ($result) {
-                $newID = $bicycle->id;
-                $_SESSION['message'] = 'The bicycle was created successfully';
-                header('Location: ' . urlFor('/staff/bicycles/show.php?id=' . $newID));
+                $_SESSION['message'] = 'The bicycle was edited successfully';
+                header('Location: ' . urlFor('/staff/bicycles/show.php?id=' . $bicycleID));
             } else {
                 if (!empty($bicycle->validationErrors)) {
                     $errorMsg = join('<br>', $bicycle->validationErrors);
@@ -41,7 +41,7 @@ if ($bicycleID === '') {
 
 ?>
     
-    <form method="POST" action="new.php">
+    <form method="POST" action="<?=urlFor('/staff/bicycles/edit.php?id=' . h(u($bicycleID))) ?>">
         <div>
             <label for="txtBrand">Brand</label>
             <input type="text" name="bicycle[brand]" id="txtBrand" required 
