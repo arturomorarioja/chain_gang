@@ -202,7 +202,31 @@ class Bicycle
         if (isBlank($this->model)) {
             $this->validationErrors[] = 'The model cannot be blank.';
         }
-        ////
+        $year = (int)$this->year;
+        if ($year < 1850) {
+            $this->validationErrors[] = 'The year cannot be lower than 1850.';
+        } 
+        if ($year > date('Y')) {
+            $this->validationErrors[] = 'The year cannot be later than the present year.';
+        }
+        if (!in_array($this->category, self::CATEGORIES)) {
+            $this->validationErrors[] = 'Invalid category.';
+        }
+        if (!in_array($this->gender, self::GENDERS)) {
+            $this->validationErrors[] = 'Invalid gender.';
+        }
+        if (isBlank($this->colour)) {
+            $this->validationErrors[] = 'The colour cannot be blank.';
+        }
+        if (!in_array($this->conditionID, array_keys(self::CONDITION_OPTIONS))) {
+            $this->validationErrors[] = 'Invalid condition.';
+        }
+        if ((float)$this->weightKg <= 0) {
+            $this->validationErrors[] = 'The weight must be positive.';
+        }
+        if ((float)$this->price <= 0) {
+            $this->validationErrors[] = 'The price must be positive.';
+        }
     }
 
     /**

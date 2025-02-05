@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 ?>
     
-    <form method="POST" action="new.php">
+    <form method="POST" action="new.php" novalidate>
         <div>
             <label for="txtBrand">Brand</label>
             <input type="text" name="bicycle[brand]" id="txtBrand" required
@@ -76,12 +76,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div>
             <label for="txtWeight">Weight (kgs)</label>
             <input type="number" name="bicycle[weight_kg]" id="txtWeight" required
-                value="<?=$bicycle ? (float)$bicycle->weightKg() : '' ?>">
+                value="<?=isset($bicycle) ? (float)$bicycle->weightKg() : '' ?>">
         </div>
         <div>
             <label for="txtPrice">Price (USD)</label>
             <input type="number" name="bicycle[price]" id="txtPrice" required
-                value="<?=h($bicycle->price ?? '') ?>">
+                value="<?=isset($bicycle) ? (float)$bicycle->price : '' ?>">
         </div>
         <div>
             <label for="txtDescription">Description</label>
