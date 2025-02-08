@@ -44,8 +44,3 @@ function my_autoload($class) {
     }
 }
 spl_autoload_register('my_autoload');
-
-// --- Active Record design pattern ---
-$database = new Database();
-Bicycle::setDatabase($database);
-// --- //

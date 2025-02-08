@@ -18,8 +18,8 @@ if ($bicycleID === '') {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $args = $_POST['bicycle'] ?? null;
             
-            // $bicycle = new Bicycle($args);
-            // $bicycle->id = $bicycleID;
+            $bicycle = new Bicycle($args);
+            $bicycle->id = $bicycleID;
             $bicycle->mergeAttributes($args);
             $result = $bicycle->save();
 
