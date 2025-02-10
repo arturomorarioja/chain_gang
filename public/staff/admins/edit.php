@@ -41,8 +41,8 @@ if ($adminID === '') {
 
 ?>
     
-    <form method="POST" action="<?=urlFor('/staff/admins/edit.php?id=' . h(u($adminID))) ?>">
-    <div>
+    <form method="POST" action="<?=urlFor('/staff/admins/edit.php?id=' . h(u($adminID))) ?>" novalidate>
+        <div>
             <label for="txtFirstName">First name</label>
             <input type="text" name="admin[first_name]" id="txtFirstName" required
                 value="<?=h($admin->firstName ?? '') ?>">

@@ -41,7 +41,7 @@ class Database extends DBCredentials
      * @return array<string, mixed>
      *         If it is a SELECT:            the query results as an associative array.
      *         If it is an INSERT:           the ID of the newly added row.
-     *         If it is an UPDATE or DELETE: the number of affected rows.
+     *         If it is an UPDATE or DELETE: true
      *         If there is an error:         false
      */
     protected function execute(
@@ -71,7 +71,12 @@ class Database extends DBCredentials
             } else {    // DML statement
                 $results = self::$pdo->lastInsertId();  // INSERT
                 if ((int)$results === 0) {  // UPDATE or DELETE
-                    $results = $stmt->rowCount();
+                    if ($stmt->errorCode() === '00000') {
+                        $results = true;
+                    } else {
+                        self::$lastErrorMessage = 'Error running query: ' . self::$pdo->errorInfo();
+                        $results = false;
+                    }
                 }
             }
             return $results;
@@ -160,11 +165,6 @@ class Database extends DBCredentials
      */
     public function save(): bool
     {
-        $this->validate();
-        if (!empty($this->validationErrors)) {
-            return false;
-        }
-
         if (isset($this->id)) {
             return $this->update();
         } else {
@@ -178,7 +178,12 @@ class Database extends DBCredentials
      */
     protected function create(): bool
     {
-        $columns = self::columnsForUpdate();
+        $this->validate();
+        if (!empty($this->validationErrors)) {
+            return false;
+        }
+
+        $columns = static::columnsForUpdate();
         $placeholders = implode(', ', array_fill(0, count($columns), '?'));
         $columns = join(', ', array_keys($columns));
         $tableName = static::$tableName;
@@ -229,8 +234,13 @@ class Database extends DBCredentials
      */
     protected function update(): bool
     {
+        $this->validate();
+        if (!empty($this->validationErrors)) {
+            return false;
+        }
+
         $attributes = $this->attributes();
-        $columns = self::columnsForUpdate();
+        $columns = static::columnsForUpdate();
         $columns = join(' = ?, ', array_keys($columns));
         $tableName = static::$tableName;
         $primaryKeyColumn = static::$primaryKeyColumn;
@@ -241,16 +251,9 @@ class Database extends DBCredentials
         SQL;
         $params = array_values($attributes);
         $params[] = $this->id;
-
+        
         try {
-            $result = self::execute($sql, $params);
-            
-            // The result is the rowcount
-            if ($result === 1) {  
-                return true;
-            } else {
-                return false;
-            }
+            return self::execute($sql, $params);        
         } catch (\PDOException $e) {
             self::$lastErrorMessage = $e->getMessage();
             return false;
@@ -277,7 +280,7 @@ class Database extends DBCredentials
      * It returns an array with the list of columns except the primary key
      * @return array with the list of columns
      */
-    static private function columnsForUpdate(): array
+    protected function columnsForUpdate(): array
     {
         // The primary key is removed from the list of columns
         return array_filter(
@@ -331,15 +334,7 @@ class Database extends DBCredentials
         SQL;
 
         try {
-            $result = self::execute($sql, [$this->id]);
-            
-            // The result is the rowcount
-            if ($result === 1) {  
-                return true;
-            } else {
-                self::$lastErrorMessage = 'No row was deleted.';
-                return false;
-            }
+            return self::execute($sql, [$this->id]);
         } catch (\PDOException $e) {
             self::$lastErrorMessage = $e->getMessage();
             return false;
