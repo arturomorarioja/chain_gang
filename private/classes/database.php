@@ -9,6 +9,8 @@ class Database extends DBCredentials
     static protected string $primaryKeyColumn = '';
     static protected array $columns = [];
     static public string $lastErrorMessage = '';
+    public array  $validationErrors = [];
+    static protected array $sortColumns = [];
     public int $id;
 
     /**
@@ -91,12 +93,11 @@ class Database extends DBCredentials
         $sql =<<<SQL
             SELECT $columns
             FROM $tableName
-            ORDER BY cBrand, cModel, nYear, cCategory;
         SQL;
         try {   
             $objectArray = [];
-            $db = new static();
-            $rows = $db->execute($sql);
+            $db = new static();            
+            $rows = $db->execute($sql, orderCols: static::$sortColumns);
             if ($rows) {
                 foreach ($rows as $record) {
                     $objectArray[] = self::instantiate($record);

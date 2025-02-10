@@ -24,7 +24,7 @@ class Bicycle extends Database
     ];
     private const WEIGHT_RATIO = 2.2046226218;
 
-    public function __construct($args=[])
+    public function __construct(array $args=[])
     {
         parent::__construct();
         $this->brand = $args['brand'] ?? '';
@@ -87,9 +87,10 @@ class Bicycle extends Database
         'nWeightKg' => 'weightKg', 
         'nConditionID' => 'conditionID', 
         'cDescription' => 'description', 
-    ];    
-    static public string $lastErrorMessage;    
-    public array  $validationErrors = [];
+    ];
+    static protected array $sortColumns = [
+        'cBrand', 'cModel', 'nYear', 'cCategory'
+    ];
  
     /**
      * Validates all attributes before a create or update operation
