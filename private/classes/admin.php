@@ -26,6 +26,11 @@ class Admin extends Database
         return $this->firstName . ' ' . $this->lastName;
     }
 
+    protected function setHashedPassword(): void
+    {
+        $this->hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+    }
+
     /*******************************
      * Active record design pattern
      *******************************/
@@ -49,5 +54,20 @@ class Admin extends Database
         $this->validationErrors = [];
 
         ////
+    }
+
+    /**
+     * The password is hashed before calling 
+     * the parent's create() or update() method
+     */
+    protected function create(): bool
+    {
+        $this->setHashedPassword();
+        return parent::create();
+    }
+    protected function update(): bool
+    {
+        $this->setHashedPassword();
+        return parent::create();
     }
 }

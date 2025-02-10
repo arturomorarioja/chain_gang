@@ -28,9 +28,9 @@ form {
         margin-bottom: 0.5rem;
 
         label {
-            width: 8rem;
+            width: 10rem;
         }
-        input[type=text], textarea {
+        input[type=text], input[type=email], input[type=password], textarea {
             min-width: 15rem;
         }
         
