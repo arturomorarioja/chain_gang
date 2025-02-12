@@ -264,7 +264,7 @@ class Database extends DBCredentials
      * It returns the list of table columns and aliases in SQL SELECT format
      * @return string with the list of table columns
      */
-    static private function columnsForSelect(): string
+    static protected function columnsForSelect(): string
     {
         return implode(
             ', ', 

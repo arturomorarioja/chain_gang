@@ -10,7 +10,8 @@ function displayErrors(array $errors=[]): string
                 <ul>
         ERROR;
         foreach ($errors as $error) {
-            $output .= "<li>{h($error)}</li>";
+            $error = h($error);
+            $output .= "<li>$error</li>";
         }
         $output .=<<<'ERROR'
                 </ul>

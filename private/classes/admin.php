@@ -31,6 +31,11 @@ class Admin extends Database
         $this->hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
     }
 
+    public function verifyPassword(string $password): bool
+    {
+        return password_verify($password, $this->hashedPassword);
+    }
+
     /*******************************
      * Active record design pattern
      *******************************/
@@ -81,7 +86,7 @@ class Admin extends Database
             $this->validationErrors[] = 'Username cannot be blank.';
         } elseif (!lengthBetween($this->username, self::STR_MIN_LENGTH, self::STR_MAX_LENGTH)) {
             $this->validationErrors[] = 'Username must be between ' . self::STR_MIN_LENGTH . ' and ' . self::STR_MAX_LENGTH . ' characters.';
-        } elseif (static::usernameExists($this->username)) {
+        } elseif (static::getByUsername($this->username)) {
             $this->validationErrors[] = "The username {$this->username} already exists.";
         }
         if ($this->passwordRequired) {
@@ -102,7 +107,7 @@ class Admin extends Database
                 $this->validationErrors[] = 'Password and confirmed password must match.';
             }
         }
-    }
+    }    
 
     /**
      * If the password is not required, it is removed from the list of attributes
@@ -155,22 +160,26 @@ class Admin extends Database
     }
 
     /**
-     * It checks whether an admin's username exists
-     * @param $username The username to check
-     * @return true if the username exists, false otherwise
+     * It retrieves an admin row by username
+     * @param $username The username
+     * @return The corresponding Admin object if the username exists, 
+     *         false otherwise
      */
-    static public function usernameExists(string $username): bool
+    static public function getByUsername(string $username): Admin|false
     {
+        $tableName = static::$tableName;
+        $columns = static::columnsForSelect();
         $sql =<<<SQL
-            SELECT COUNT(*) AS Total
-            FROM admins
+            SELECT $columns
+            FROM $tableName
             WHERE cUsername = ?;
         SQL;
         $db = new static();
-        $results = $db->execute($sql, [$username], true);
-        if (!$results) {
+        $row = $db->execute($sql, [$username], true);
+        if (!$row) {
+            self::$lastErrorMessage = Database::$lastErrorMessage;
             return false;
         }
-        return $results['Total'] > 0;
+        return self::instantiate($row);
     }
 }
