@@ -81,6 +81,8 @@ class Admin extends Database
             $this->validationErrors[] = 'Username cannot be blank.';
         } elseif (!lengthBetween($this->username, self::STR_MIN_LENGTH, self::STR_MAX_LENGTH)) {
             $this->validationErrors[] = 'Username must be between ' . self::STR_MIN_LENGTH . ' and ' . self::STR_MAX_LENGTH . ' characters.';
+        } elseif (static::usernameExists($this->username)) {
+            $this->validationErrors[] = "The username {$this->username} already exists.";
         }
         if ($this->passwordRequired) {
             if (isBlank($this->password)) {
@@ -150,5 +152,25 @@ class Admin extends Database
             $this->setHashedPassword();
         }
         return parent::update();
+    }
+
+    /**
+     * It checks whether an admin's username exists
+     * @param $username The username to check
+     * @return true if the username exists, false otherwise
+     */
+    static public function usernameExists(string $username): bool
+    {
+        $sql =<<<SQL
+            SELECT COUNT(*) AS Total
+            FROM admins
+            WHERE cUsername = ?;
+        SQL;
+        $db = new static();
+        $results = $db->execute($sql, [$username], true);
+        if (!$results) {
+            return false;
+        }
+        return $results['Total'] > 0;
     }
 }
