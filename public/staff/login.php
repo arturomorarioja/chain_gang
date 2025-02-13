@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($validationErrors)) {
         $admin = Admin::getByUsername($username);
         if ($admin && $admin->verifyPassword($password)) {
+            $session->login($admin);
             header('Location: '. urlFor('/staff/index.php'));
         } else {
             $validationErrors[] = 'Log in was unsuccessful.';

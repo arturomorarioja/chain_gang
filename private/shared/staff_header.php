@@ -16,9 +16,14 @@
         </h1>
     </header>
     <main>
-        <section>
-            <p><a href="<?=urlFor($backUrl ?? '/') ?>">Back</a></p>
-        </section>
+        <nav class="staff">
+            <?php if ($session->isLoggedIn()): ?>
+                <ul>
+                    <li><a href="<?=urlFor($backUrl ?? '/') ?>">Back</a></li>
+                    <li><a href="<?=urlFor('/staff/logout.php') ?>">Log out</a></li>
+                </ul>
+            <?php endif; ?>
+        </nav>
         <header>
             <h2><?=$pageTitle ?></h2>
         </header>

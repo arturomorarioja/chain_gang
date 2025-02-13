@@ -162,7 +162,7 @@ class Admin extends Database
     /**
      * It retrieves an admin row by username
      * @param $username The username
-     * @return The corresponding Admin object if the username exists, 
+     * @return<Admin> The corresponding Admin object if the username exists, 
      *         false otherwise
      */
     static public function getByUsername(string $username): Admin|false
