@@ -18,6 +18,7 @@
     <main>
         <nav class="staff">
             <?php if ($session->isLoggedIn()): ?>
+                <p>User: <?=$session->username ?></p>
                 <ul>
                     <li><a href="<?=urlFor($backUrl ?? '/') ?>">Back</a></li>
                     <li><a href="<?=urlFor('/staff/logout.php') ?>">Log out</a></li>

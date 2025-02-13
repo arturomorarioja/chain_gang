@@ -2,13 +2,17 @@
 
 class Session
 {
-    private int $adminID;
+    private ?int $adminID;
+    public string $username;
+    private ?int $lastLogin;
 
     public function __construct()
     {
         session_start();
         if (isset($_SESSION['admin_id'])) {
-            $this->adminID = $_SESSION['admin_id'];
+            $this->adminID = $_SESSION['admin_id'] ?? null;
+            $this->username = $_SESSION['username'] ?? '';
+            $this->lastLogin = $_SESSION['last_login'] ?? null;
         }
     }
 
@@ -29,6 +33,8 @@ class Session
 
         $_SESSION['admin_id'] = $admin->id;
         $this->adminID = $admin->id;
+        $this->username = $_SESSION['username'] = $admin->username;
+        $this->lastLogin = $_SESSION['last_login'] = time();
 
         return true;
     }
@@ -41,6 +47,8 @@ class Session
     public function logout(): void
     {
         unset($_SESSION['admin_id']);
+        unset($_SESSION['username']);
+        unset($_SESSION['last_login']);
         unset($this->adminID);        
     }
 }
