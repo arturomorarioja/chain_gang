@@ -1,6 +1,8 @@
 <?php
 
 require_once '../../../private/initialize.php';
+requireLogin();
+
 $pageTitle = 'Delete admin';
 $backUrl = '/staff/admins';
 include SHARED_PATH . '/staff_header.php';

@@ -1,6 +1,7 @@
 <?php 
 
 require_once '../../../private/initialize.php';
+requireLogin();
 
 $pageTitle = 'Bicycles';
 $backUrl = '/staff';

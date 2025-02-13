@@ -1,5 +1,13 @@
 <?php
 
+function requireLogin(): void
+{
+    global $session;
+    if (!$session->isLoggedIn()) {
+        header('Location: ' . urlFor('/staff/login.php'));
+    }    
+}
+
 function displayErrors(array $errors=[]): string
 {
     $output = '';

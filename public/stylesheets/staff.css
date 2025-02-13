@@ -22,7 +22,10 @@ nav {
             justify-content: flex-start;
             gap: 0;
             li {
-                border: none;                
+                border: none;
+                a {
+                    color: var(--colorBgSecondary);
+                }
             }
         }
     }

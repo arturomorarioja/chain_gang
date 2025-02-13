@@ -1,6 +1,8 @@
 <?php
 
 require_once '../../../private/initialize.php';
+requireLogin();
+
 $pageTitle = 'Add bicycle';
 $backUrl = '/staff/bicycles';
 include SHARED_PATH . '/staff_header.php';

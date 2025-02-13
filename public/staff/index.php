@@ -1,6 +1,8 @@
 <?php 
 
 require_once('../../private/initialize.php');
+requireLogin();
+
 $pageTitle = '';
 include(SHARED_PATH . '/staff_header.php');
 
