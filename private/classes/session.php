@@ -2,6 +2,8 @@
 
 class Session
 {
+    public const MAX_LOGIN_TIME = 60 * 60 * 24;
+
     private ?int $adminID;
     public string $username;
     private ?int $lastLogin;
@@ -41,7 +43,18 @@ class Session
 
     public function isLoggedIn(): bool
     {
-        return isset($this->adminID);
+        return isset($this->adminID) && $this->lastLoginIsRecent();
+    }
+
+    public function lastLoginIsRecent(): bool
+    {
+        if (!isset($this->lastLogin)) {
+            return false;
+        } elseif ($this->lastLogin + self::MAX_LOGIN_TIME < time()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public function logout(): void
