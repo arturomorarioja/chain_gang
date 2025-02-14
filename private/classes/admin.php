@@ -86,7 +86,7 @@ class Admin extends Database
             $this->validationErrors[] = 'Username cannot be blank.';
         } elseif (!lengthBetween($this->username, self::STR_MIN_LENGTH, self::STR_MAX_LENGTH)) {
             $this->validationErrors[] = 'Username must be between ' . self::STR_MIN_LENGTH . ' and ' . self::STR_MAX_LENGTH . ' characters.';
-        } elseif (static::getByUsername($this->username)) {
+        } elseif (debug_backtrace()[1]['function'] === 'create' && static::getByUsername($this->username)) {
             $this->validationErrors[] = "The username {$this->username} already exists.";
         }
         if ($this->passwordRequired) {
