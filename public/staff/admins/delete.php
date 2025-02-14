@@ -19,7 +19,7 @@ if ($adminID === '') {
     } else {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($admin->delete()) {
-                $_SESSION['message'] = 'The admin was deleted successfully';
+                $session->message('The admin was deleted successfully');
                 header('Location: ' . urlFor('/staff/admins'));
             } else {
                 $errorMsg = 'There was an error while deleting the admin.';

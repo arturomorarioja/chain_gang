@@ -18,6 +18,7 @@ if (!$admins) {
 
 ?>
 
+    <?=displaySessionMessage() ?>
     <section>
         <section>
             <p><a href="new.php">Add admin</a></p>

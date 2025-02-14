@@ -57,6 +57,28 @@ class Session
         }
     }
 
+    /**
+     * It handles the session message
+     * @param $message The new session message (optional)
+     * @return<string> The existing session message if no one is received,
+     *         or true if a message is received, 
+     *         in which case it becomes the new session message
+     */
+    public function message(string $message = ''): string|true
+    {
+        if (empty($message)) {
+            return $_SESSION['message'] ?? '';
+        } else {
+            $_SESSION['message'] = $message;
+            return true;
+        }
+    }
+
+    public function clearMessage(): void
+    {
+        unset($_SESSION['message']);
+    }
+
     public function logout(): void
     {
         unset($_SESSION['admin_id']);

@@ -26,7 +26,7 @@ if ($adminID === '') {
             $result = $admin->save();
 
             if ($result) {
-                $_SESSION['message'] = 'The admin was edited successfully';
+                $session->message('The admin was edited successfully');
                 header('Location: ' . urlFor('/staff/admins/show.php?id=' . $adminID));
             } else {
                 if (!empty($admin->validationErrors)) {

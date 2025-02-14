@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result) {
         $newID = $admin->id;
-        $_SESSION['message'] = 'The admin was created successfully';
+        $session->message('The admin was created successfully');
         header('Location: ' . urlFor('/staff/admins/show.php?id=' . $newID));
     } else {
         if (!empty($admin->validationErrors)) {

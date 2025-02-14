@@ -18,6 +18,7 @@ if (!$bikes) {
 
 ?>
 
+    <?=displaySessionMessage() ?>
     <section>
         <section>
             <p><a href="new.php">Add bicycle</a></p>

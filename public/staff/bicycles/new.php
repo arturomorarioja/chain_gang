@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result) {
         $newID = $bicycle->id;
-        $_SESSION['message'] = 'The bicycle was created successfully';
+        $session->message('The bicycle was created successfully');
         header('Location: ' . urlFor('/staff/bicycles/show.php?id=' . $newID));
     } else {
         if (!empty($bicycle->validationErrors)) {

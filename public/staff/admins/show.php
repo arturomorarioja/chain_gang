@@ -23,6 +23,7 @@ if (!$admin) {
 
 ?>
 
+    <?=displaySessionMessage() ?>
     <section>
         <dl>
             <dt>ID</dt>

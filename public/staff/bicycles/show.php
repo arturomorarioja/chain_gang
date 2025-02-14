@@ -21,6 +21,7 @@ if (!$bike) {
 
 ?>
 
+    <?=displaySessionMessage() ?>
     <section>
         <dl>
             <dt>Brand</dt>

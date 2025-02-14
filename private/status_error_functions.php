@@ -29,17 +29,13 @@ function displayErrors(array $errors=[]): string
     return $output;
 }
 
-function getAndClearSessionMessage(): string
+function displaySessionMessage(): string
 {
-    $sessionMsg = trim($_SESSION['message'] ?? '');
-    if ($sessionMsg !== '') {
-        unset($_SESSION['message']);
+    global $session;
+    $message = h($session->message());
+    if (!empty($message)) {
+        $session->clearMessage();
+        return "<p class=\"message\">$message</p>";
     }
-    return $sessionMsg;
-}
-
-function displaySessionMessage()
-{
-    $message = getAndClearSessionMessage();
-    return "<p id=\"message\">{h($message)}</p>";
+    return '';
 }

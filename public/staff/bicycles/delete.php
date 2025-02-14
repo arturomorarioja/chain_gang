@@ -19,7 +19,7 @@ if ($bicycleID === '') {
     } else {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($bicycle->delete()) {
-                $_SESSION['message'] = 'The bicycle was deleted successfully';
+                $session->message('The bicycle was deleted successfully');
                 header('Location: ' . urlFor('/staff/bicycles'));
             } else {
                 $errorMsg = 'There was an error while deleting the bicycle.';

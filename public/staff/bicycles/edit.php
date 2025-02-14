@@ -26,7 +26,7 @@ if ($bicycleID === '') {
             $result = $bicycle->save();
 
             if ($result) {
-                $_SESSION['message'] = 'The bicycle was edited successfully';
+                $session->message('The bicycle was edited successfully');
                 header('Location: ' . urlFor('/staff/bicycles/show.php?id=' . $bicycleID));
             } else {
                 if (!empty($bicycle->validationErrors)) {
